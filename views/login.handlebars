@@ -1,0 +1,65 @@
+<div class="row input-form">
+  <section class="col">
+    <h2>Already have an account? Login here!</h2>
+    <form class="login-form">
+      <div>
+        <label for="username-login">Enter your username:</label>
+        <input type="text" id="username-input-login" placeholder="username" />
+      </div>
+      <div>
+        <label for="password-login">Enter your password:</label>
+        <input type="password" id="password-input-login" placeholder="password" />
+      </div>
+      <div>
+        <button type="submit">login</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+<div class="row input-form">
+  <h2>Don't have an account yet? That's ok! Sign up here!</h2>
+  <form class="signup-form">
+    <div>
+      <label for="username-signup">username:</label>
+      <input type="text" id="username-signup" />
+    </div>
+    <div>
+      <label for="email-signup">email:</label>
+      <input type="text" id="email-signup" />
+    </div>
+    <div>
+      <label for="password-signup">password:</label>
+      <input type="password" id="password-signup" />
+    </div>
+    <div>
+      <p>Select an account type</p>
+      <input type="radio" id="band" name="fav_language" value="band" />
+      <label for="band">Band</label><br />
+
+      <input
+        type="radio"
+        id="coordinator"
+        name="fav_language"
+        value="coordinator"
+        checked
+      />
+      <label for="coordinator">coordinator</label><br />
+    </div>
+    <div id="coordinator-signup">
+      <div>
+        <label for="organization">organization:</label>
+        <input type="text" id="organization" />
+      </div>
+    </div>
+    <div class="invisible" id="band-signup">
+      <div>
+        <label for="bandName">Band Name:</label>
+        <input type="text" id="bandName" />
+      </div>
+      <div>
+        <label for="bandEmail">Band email:</label>
+        <input type="text" id="bandEmail" />
+      </div>
+    </div>
+    <div>
