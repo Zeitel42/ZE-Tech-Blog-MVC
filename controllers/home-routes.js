@@ -20,8 +20,6 @@ router.get("/", async (req, res) => {
 // get single post
 router.get("/post/:id", async (req, res) => {
   try {
-    // what should we pass here? we need to get some data passed via the request body (something.something.id?)
-    // change the model below, but not the findByPk method.
     const postData = await Post.findByPk(req.params.id, {
       // helping you out with the include here, no changes necessary
       include: [
