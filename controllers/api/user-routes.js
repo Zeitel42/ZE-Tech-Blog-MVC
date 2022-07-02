@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { User, Comment, Post } = require("../../models");
+const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res) => {
   try {
@@ -8,6 +9,24 @@ router.get("/", async (req, res) => {
     res.status(200).json(userData);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+router.get("/:id", (req, res) => {
+  try {
+    const user = User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    }).then((dbUserData) => {
+      if (!dbUserData) {
+        res.status(404).json({ message: "No user found with this id" });
+        return;
+      }
+      res.json(dbUserData);
+    });
+  } catch (err) {
+    res.status(400).json({ message: "No user account found, you suck!" });
   }
 });
 
@@ -39,15 +58,29 @@ router.post("/login", async (req, res) => {
       },
     });
 
+    const userData = user.dataValues;
+
+    console.log(
+      "Raw password: " + req.body.password,
+      "Encrypted password: " + userData.password
+    );
+
+    if (!(await bcrypt.compare(req.body.password, userData.password))) {
+      res.status(400).json({ message: "ya done goofed" });
+      return;
+    }
+
+    console.log(req.body.username, req.body.password);
+
     // if (!user) {
-    //   res.status(400).json({ message: "No user account found!" });
+    //   res.status(400).json({ message: "No user account found! Balls!" });
     //   return;
     // }
 
     // const validPassword = user.checkPassword(req.body.password);
 
     // if (!validPassword) {
-    //   res.status(400).json({ message: "No user account found!" });
+    //   res.status(400).json({ message: "No user account found! Testes!" });
     //   return;
     // }
 
@@ -59,11 +92,12 @@ router.post("/login", async (req, res) => {
       res.json({ user, message: "You are now logged in!" });
     });
   } catch (err) {
-    res.status(400).json({ message: "No user account found!" });
+    res.status(400).json({ message: "No user account found! Scrotums!" });
   }
 });
 
 router.post("/logout", (req, res) => {
+  // When the user logs out, destroy the session
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();

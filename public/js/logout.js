@@ -3,11 +3,10 @@ const logout = function () {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
-
+  console.log(response);
   if (response.ok) {
-    document.location.replace("/login");
-  } else {
-    alert("Failed to log out");
+    document.location.replace("/");
+    console.log("logged out, mf'r");
   }
 };
 
