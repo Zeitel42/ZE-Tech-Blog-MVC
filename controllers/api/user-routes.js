@@ -66,23 +66,11 @@ router.post("/login", async (req, res) => {
     );
 
     if (!(await bcrypt.compare(req.body.password, userData.password))) {
-      res.status(400).json({ message: "ya done goofed" });
+      res.status(400).json({ message: "Failed to login" });
       return;
     }
 
     console.log(req.body.username, req.body.password);
-
-    // if (!user) {
-    //   res.status(400).json({ message: "No user account found! Balls!" });
-    //   return;
-    // }
-
-    // const validPassword = user.checkPassword(req.body.password);
-
-    // if (!validPassword) {
-    //   res.status(400).json({ message: "No user account found! Testes!" });
-    //   return;
-    // }
 
     req.session.save(() => {
       req.session.userId = user.id;
@@ -92,12 +80,13 @@ router.post("/login", async (req, res) => {
       res.json({ user, message: "You are now logged in!" });
     });
   } catch (err) {
-    res.status(400).json({ message: "No user account found! Scrotums!" });
+    res.status(400).json({ message: "No user account found!" });
   }
 });
 
 router.post("/logout", (req, res) => {
   // When the user logs out, destroy the session
+
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
