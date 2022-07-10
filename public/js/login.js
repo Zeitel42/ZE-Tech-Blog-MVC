@@ -1,28 +1,62 @@
-const loginFormHandler = async function (event) {
+const loginFormHandler = async (event) => {
   event.preventDefault();
 
-  const usernameEl = document.querySelector("#username-input-login");
-  const passwordEl = document.querySelector("#password-input-login");
+  // Collect values from the login form
+  const username = document.querySelector("#username-input-login").value.trim();
+  const password = document.querySelector("#password-input-login").value.trim();
 
-  if (usernameEl === "" || passwordEl === "") {
-    alert("Please enter a username and password");
-  } else {
-    const response = await fetch("/api/user/login", {
+  if (username && password) {
+    // Send a POST request to the API endpoint
+    const response = await fetch("/api/users/login", {
       method: "POST",
-      body: JSON.stringify({
-        username: usernameEl.value,
-        password: passwordEl.value,
-      }),
+      body: JSON.stringify({ username, password }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.ok) {
+      // If successful, redirect the browser to the profile page
+      document.location.replace("/dashboard");
+    } else {
+      alert(response.statusText);
+    }
+  }
+};
+
+const signupFormHandler = async (event) => {
+  event.preventDefault();
+
+  const username = document
+    .querySelector("#username-input-signup")
+    .value.trim();
+  const password = document
+    .querySelector("#password-input-signup")
+    .value.trim();
+
+  if (username && password) {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     });
 
     if (response.ok) {
       document.location.replace("/dashboard");
     } else {
-      alert("Failed to login");
+      alert(response.statusText);
     }
   }
 };
-document
-  .querySelector("#login-form")
-  .addEventListener("submit", loginFormHandler);
+
+const loginForm = document.querySelector("#login-form");
+if (loginForm) {
+  loginForm.addEventListener("submit", loginFormHandler);
+} else {
+  console.log("Your login form is shit");
+}
+
+const signupForm = document.querySelector("#signup-form");
+if (signupForm) {
+  signupForm.addEventListener("submit", signupFormHandler);
+} else {
+  console.log("Your signup form is shit");
+}
