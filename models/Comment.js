@@ -1,30 +1,21 @@
-// import important parts of sequelize library
-const { Model, DataTypes, DATE, INTEGER } = require("sequelize");
-// import our database connection from config.js
+const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/config");
 
-// Initialize Product model (table) by extending off Sequelize's Model class
 class Comment extends Model {}
 
-// set up fields and rules for Comment model
 Comment.init(
   {
-    // define columns
     id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
-    },
-    comment_text: {
-      type: DataTypes.STRING,
       allowNull: false,
+      autoIncrement: true,
     },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "User",
+        model: "user",
         key: "id",
       },
     },
@@ -32,17 +23,23 @@ Comment.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Post",
+        model: "post",
         key: "id",
+      },
+    },
+    comment_text: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1],
       },
     },
   },
   {
     sequelize,
-    timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: "Comment",
+    modelName: "comment",
   }
 );
 

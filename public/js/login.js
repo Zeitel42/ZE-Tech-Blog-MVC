@@ -7,17 +7,18 @@ const loginFormHandler = async (event) => {
 
   if (username && password) {
     // Send a POST request to the API endpoint
-    const response = await fetch("/api/users/login", {
+    const response = await fetch("/api/user/login", {
       method: "POST",
       body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     });
 
     if (response.ok) {
+      // console.log(username);
       // If successful, redirect the browser to the profile page
       document.location.replace("/dashboard");
     } else {
-      alert(response.statusText);
+      alert("No user found. Get bent.");
     }
   }
 };
@@ -26,5 +27,5 @@ const loginForm = document.querySelector("#login-form");
 if (loginForm) {
   loginForm.addEventListener("submit", loginFormHandler);
 } else {
-  console.log("Your login form is shit");
+  console.log("Form issues");
 }
